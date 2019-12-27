@@ -1,0 +1,31 @@
+.musiclist{
+    height: 40px;
+}
+.musictop{
+    margin-top: 15px;
+}
+.searchinput{
+    margin-left: 15px;
+}
+.tdwitdh1{
+    width: 500px;
+    text-align:left;
+}
+.tdwitdh2{
+    width: 250px;
+    text-align:left;
+}
+.tdwitdh3{
+    width: 380px;
+    text-align:left;
+}
+.tdwitdh4{
+    width: 50px;
+    text-align:left;
+}
+.musiclist:hover{
+     background-color:#8c8686;
+}
+.active{
+    background-color:#d6d0d0;
+}

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>音乐</title>
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/music.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/broadcastmusic.css"/>
+    <script type="application/javascript" src="/static/js/jquery-3.4.1.min.js"></script>
+    <script type="application/javascript" src="/static/js/bootstrap.min.js"></script>
+    <script type="application/javascript" src="/static/js/musicqq.js"></script>
+</head>
+<body class="text-center" style="background-color: #efefef">
+<div class="container-fluid" style="margin: 20px;background-color:#ece7e7">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 musictop">
+        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+            <div class="input-group searchinput">
+                <input type="text" class="form-control" id="songname" name="songname" value=""
+                       placeholder="请输入歌曲名进行搜索...">
+                <span class="input-group-btn">
+                        <button class="btn btn-default" onclick="searchmusic()">Go!</button>
+            </span>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 musictop">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="audioPlayer col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="time">
+                    <span class="currentTime">00:00</span>
+                    /
+                    <span class="totalTime">00:00</span>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="btn col-lg-2 col-md-12 col-sm-12 col-xs-12" id="btn">
+                        <img src="/static/img/play.png" class="play" alt=""/>
+                        <img src="/static/img/pause.png" class="pause" alt=""/>
+                    </div>
+                    <audio id="audio" src=""></audio>
+                    <div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
+                        <div class="totalProgress">
+                            <div class="currentProgress"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 musictop">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="panel-footer">
+                <table>
+                    <a href="http://www.baidu.com" id="b"></a>
+                    <tr>
+                        <td class="tdwitdh1">
+                            <span class="glyphicon glyphicon-play-circle"></span>
+                            <span style="color: #1b6d85">歌名</span>
+                            <!--<img src="/static/img/vip.png">-->
+                        </td>
+                        <td class="tdwitdh2">
+                            <span style="color: #1b6d85">歌手
+                            </span>
+                        </td>
+                        <td class="tdwitdh3"><span style="color: #1b6d85">专辑</span></td>
+                        <td class="tdwitdh4"><span style="color: #1b6d85">时长</span></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="musicbeigin">
+            <!-- <div class="panel-footer musiclist" onclick="broadcast(this)" id="musiclist2">
+                 <table>
+                     <a href="http://www.baidu.com" id="a"></a>
+                     <tr>
+                         <td class="tdwitdh1">
+                             <span class="glyphicon glyphicon-play-circle"></span>
+                             <span>歌名</span>
+                             <img src="/static/img/vip.png">
+                             </td>
+                         <td class="tdwitdh2">
+                             <span>歌手</span>
+                         </td>
+                         <td class="tdwitdh3">
+                             <span>专辑</span>
+                         </td>
+                         <td class="tdwitdh4">
+                             <span>时长</span>
+                         </td>
+                     </tr>
+                 </table>
+             </div>-->
+        </div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    </div>
+</div>
+<script src="/static/js/audioPlayer.js"></script>
+</body>
+</html>

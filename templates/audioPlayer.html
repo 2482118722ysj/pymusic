@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>音乐播放器</title>
+    <link rel="stylesheet" href="/static/css/audioPlayer.css"/>
+    <script src="/static/js/jquery-3.4.1.min.js"></script>
+</head>
+<body>
+<div class="audioPlayer">
+    <div class="time">
+        <span class="currentTime">00:00</span>
+        /
+        <span class="totalTime">00:00</span>
+    </div>
+    <div class="btn">
+        <img src="/static/img/play.png" class="play" alt=""/>
+        <img src="/static/img/pause.png" class="pause" alt=""/>
+    </div>
+    <audio id="audio" src="http://aqqmusic.tc.qq.com/amobile.music.tc.qq.com/C400000V1QZu0g36si.m4a?guid=2095717240&vkey=D2C452AEF9E5B69C659C7DD627766D47599CB4E555FCEDB3ACDB51614B162FDA116DBF22297D970FFEA873A59B5B25D03A522A0A8195AEE2&uin=0&fromtag=38"></audio>
+    <div class="totalProgress">
+        <div class="currentProgress"></div>
+    </div>
+</div>
+</body>
+<script src="/static/js/audioPlayer.js"></script>
+</html>
