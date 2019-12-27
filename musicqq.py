@@ -3,8 +3,6 @@
 from __future__ import unicode_literals
 from selenium.common.exceptions import NoSuchElementException
 import web
-from urllib import parse
-import urllib.request
 from selenium import webdriver
 import requests
 import json
@@ -16,9 +14,8 @@ urls = (
     '/', 'Music',
     '/broadcast', 'Broadcast',
 )
-
-cachetime = 30   # 缓存时间 min
-cachesize = 10   # 缓存块大小
+cachetime = 30  # 缓存时间 min
+cachesize = 10  # 缓存块大小
 size = 10  # 每页拉取歌的数目
 render = web.template.render('templates')
 cacheDict = {}  # 缓存Dict
@@ -36,24 +33,27 @@ class Music:
 
 
 # 缓存查找
-def findCache(self, songname):
+def findCache(songname):
     if cacheDict == {}:
         return None
     else:
-        songList=[]
-        for musicname in cacheDict:
-            if songname.strip() == musicname:
+        songList = []
+        for musiclistname in cacheDict:
+            if songname.strip() == musiclistname:
                 songList = cacheDict[songname]
-        if songList!=[]:
+                cacheDict[songname][-1]['startcache'] = int(round(time.time() * 1000))  # 当查询存在缓存中的歌曲，就会更新缓存的开始时间
+        if songList != []:
+            # if 'startcache' in songList[-1].keys:
+            #     del songList[-1]  # 删除时间
             return songList
         else:
             return None
 
 
 #  插入缓存
-def insertCache(self, songname, musicList):
-    if (len(cacheDict) <= (cachesize-1)):
-        addMusicIntoCache(musicList, songname)
+def insertCache(songname, musicdictlist):
+    if (len(cacheDict) <= (cachesize - 1)):
+        addMusicIntoCache(musicdictlist, songname)
     else:
         endcache = int(round(time.time() * 1000))
         timeDict = {}
@@ -61,21 +61,21 @@ def insertCache(self, songname, musicList):
             startcachetime = cacheDict.get(musicname)[-1].get('startcache')
             if (endcache - startcachetime) > cachetime * 60 * 1000:
                 del cacheDict[musicname]  # 如果保存时间大于30min 就删除,然后加入新属性
-                addMusicIntoCache(musicList, songname)
+                addMusicIntoCache(musicdictlist, songname)
                 break
             else:
                 timeDict[musicname] = startcachetime  # 否则如果没有一个超过30min，就把对应的歌曲名，和musiclist的时间添加到timeDict
-        if timeDict!={}:
+        if timeDict != {}:
             minstartsongname = min(timeDict)
             del cacheDict[minstartsongname]
-            addMusicIntoCache(musicList, songname)
+            addMusicIntoCache(musicdictlist, songname)
 
 
 # 把music加入缓存
-def addMusicIntoCache(musicList, songname):
+def addMusicIntoCache(addmusicList, songname):
     timecache['startcache'] = int(round(time.time() * 1000))  # 时间为毫秒级别,并保存到timecache，然后保存到musicList
-    musicList.append(timecache)
-    cacheDict[songname] = musicList
+    addmusicList.append(timecache)
+    cacheDict[songname] = addmusicList
 
 
 class Search:
@@ -83,8 +83,10 @@ class Search:
         musicList = []
         songname = web.input().get('songname')
         print(songname)
-        findIS = findCache(self,songname)  # cache查找
+        findIS = findCache(songname)  # cache查找
         if findIS != None:
+            # if 'startcache' in findIS[-1].keys():
+            #     del musicList[-1]
             return json.dumps(findIS, ensure_ascii=False)
         else:
             dictList = openBrowe(songname, size)
@@ -92,8 +94,9 @@ class Search:
                 repurl = get_music(dict)
                 if len(repurl) != 0:
                     musicList.append(repurl)
-            insertCache(self,songname, musicList)  # 插入缓存
-            # return render.music(musicList,songname)
+            insertCache(songname, musicList)  # 插入缓存
+            # if 'startcache' in musicList[-1].keys():
+            #     del musicList[-1]
             return json.dumps(musicList, ensure_ascii=False)
 
 
@@ -103,7 +106,7 @@ def openBrowe(name, size):
     options.add_argument("--headless")  # 无需打开游览器获取信息
     options.binary_location = r"F:\Google\Chrome\Application\chrome.exe"
     driver = webdriver.Chrome(chrome_options=options)
-    driver.implicitly_wait(2)  # 等待3秒,智能等待
+    driver.implicitly_wait(2)  # 等待2秒,智能等待
     url = f'https://y.qq.com/portal/search.html#page=1&searchid=1&remoteplace=txt.yqq.top&t=song&w={name}'
     driver.get(url)
     for i in range(1, size):
