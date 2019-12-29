@@ -29,3 +29,15 @@
 .active{
     background-color:#d6d0d0;
 }
+.previous{
+    margin-left: -44px;width: 32px;margin-top: 7px;
+}
+.previous:hover{
+    background-color: #d4cece;
+}
+.next{
+    margin-left: 12px;width: 32px;margin-top: 7px;
+}
+.next:hover{
+    background-color: #d4cece;
+}

@@ -5,12 +5,14 @@
 
 .play{
     display: block;
-    margin-left: 37px;
+    margin-left: 12px;
+    margin-top: -3px;
 }
 
 .pause{
     display: none;
-    margin-left: 37px;
+    margin-left: 12px;
+    margin-top: -3px;
 }
 
 .audioPlayer{
@@ -28,8 +30,8 @@
     cursor: pointer;
     position: absolute;
     top: 20px;
-    left: -80px;
-    width: 1000px;
+    left: -12px;
+    width: 973px;
     height: 8px;
     background-color: white;
     border-radius: 10px;
@@ -48,6 +50,6 @@
     margin-left: 10px;
     position: absolute;
     top: 10px;
-    left: 145px;
+    left: 211px;
     color: #151313;
 }

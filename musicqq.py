@@ -14,6 +14,12 @@ urls = (
     '/', 'Music',
     '/broadcast', 'Broadcast',
 )
+
+app = web.application(urls, globals())
+
+if __name__ == '__main__':
+    app.run()
+
 cachetime = 30  # 缓存时间 min
 cachesize = 10  # 缓存块大小
 size = 10  # 每页拉取歌的数目
@@ -30,52 +36,6 @@ class Broadcast:
 class Music:
     def GET(self):
         return open('templates/music.html', encoding='utf-8').read()
-
-
-# 缓存查找
-def findCache(songname):
-    if cacheDict == {}:
-        return None
-    else:
-        songList = []
-        for musiclistname in cacheDict:
-            if songname.strip() == musiclistname:
-                songList = cacheDict[songname]
-                cacheDict[songname][-1]['startcache'] = int(round(time.time() * 1000))  # 当查询存在缓存中的歌曲，就会更新缓存的开始时间
-        if songList != []:
-            # if 'startcache' in songList[-1].keys:
-            #     del songList[-1]  # 删除时间
-            return songList
-        else:
-            return None
-
-
-#  插入缓存
-def insertCache(songname, musicdictlist):
-    if (len(cacheDict) <= (cachesize - 1)):
-        addMusicIntoCache(musicdictlist, songname)
-    else:
-        endcache = int(round(time.time() * 1000))
-        timeDict = {}
-        for musicname in cacheDict:
-            startcachetime = cacheDict.get(musicname)[-1].get('startcache')
-            if (endcache - startcachetime) > cachetime * 60 * 1000:
-                del cacheDict[musicname]  # 如果保存时间大于30min 就删除,然后加入新属性
-                addMusicIntoCache(musicdictlist, songname)
-                break
-            else:
-                timeDict[musicname] = startcachetime  # 否则如果没有一个超过30min，就把对应的歌曲名，和musiclist的时间添加到timeDict
-        if timeDict != {}:
-            minstartsongname = min(timeDict)
-            del cacheDict[minstartsongname]
-            addMusicIntoCache(musicdictlist, songname)
-
-
-# 把music加入缓存
-def addMusicIntoCache(addmusicList, songname):
-    timecache['startcache'] = int(round(time.time() * 1000))  # 时间为毫秒级别,并保存到timecache，然后保存到musicList
-    addmusicList.append(timecache)
-    cacheDict[songname] = addmusicList
 
 
 class Search:
@@ -151,7 +111,47 @@ def get_music(dict):
         return musicDict
 
 
-app = web.application(urls, globals())
+# 缓存查找
+def findCache(songname):
+    if cacheDict == {}:
+        return None
+    else:
+        songList = []
+        for musiclistname in cacheDict:
+            if songname.strip() == musiclistname:
+                songList = cacheDict[songname]
+                cacheDict[songname][-1]['startcache'] = int(round(time.time() * 1000))  # 当查询存在缓存中的歌曲，就会更新缓存的开始时间
+        if songList != []:
+            # if 'startcache' in songList[-1].keys:
+            #     del songList[-1]  # 删除时间
+            return songList
+        else:
+            return None
 
-if __name__ == '__main__':
-    app.run()
+
+#  插入缓存
+def insertCache(songname, musicdictlist):
+    if (len(cacheDict) <= (cachesize - 1)):
+        addMusicIntoCache(musicdictlist, songname)
+    else:
+        endcache = int(round(time.time() * 1000))
+        timeDict = {}
+        for musicname in cacheDict:
+            startcachetime = cacheDict.get(musicname)[-1].get('startcache')
+            if (endcache - startcachetime) > cachetime * 60 * 1000:
+                del cacheDict[musicname]  # 如果保存时间大于30min 就删除,然后加入新属性
+                addMusicIntoCache(musicdictlist, songname)
+                break
+            else:
+                timeDict[musicname] = startcachetime  # 否则如果没有一个超过30min，就把对应的歌曲名，和musiclist的时间添加到timeDict
+        if timeDict != {}:
+            minstartsongname = min(timeDict)
+            del cacheDict[minstartsongname]
+            addMusicIntoCache(musicdictlist, songname)
+
+
+# 把music加入缓存
+def addMusicIntoCache(addmusicList, songname):
+    timecache['startcache'] = int(round(time.time() * 1000))  # 时间为毫秒级别,并保存到timecache，然后保存到musicList
+    addmusicList.append(timecache)
+    cacheDict[songname] = addmusicList

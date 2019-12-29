@@ -1,6 +1,12 @@
 function searchmusic() {
     //当点击搜索，继续播放
-    $("#btn").click();
+    var style=$("#clickplay").style;
+    if(style!=null){
+        clickplay=style.display;
+        if(clickplay=="none"){
+            $("#btn").click();
+        }
+    }
     var songname = $("#songname").val();
     document.getElementById("songname").value = songname;
     var musicbeigin = $("#musicbeigin");
@@ -87,5 +93,31 @@ function broadcast(e) {
         musichref = $("#music" + musicid).attr("href");
         $("#audio").attr("src", musichref);
         $("#btn").click();
+        window.localStorage.setItem("id", musicid);
     });
+}
+
+//播放下一首
+function clickNext() {
+    var musicid = window.localStorage.getItem("id");
+    var nextSibling = $("#" + musicid).next().attr("id");
+    nextOrPrevious(nextSibling);
+}
+
+//播放上一首previousElementSibling
+function clickPrevious() {
+    var musicid = window.localStorage.getItem("id");
+    var previous = $("#" + musicid).prev().attr("id");
+    nextOrPrevious(previous);
+}
+
+function nextOrPrevious(nextorprevious) {
+    if (nextorprevious != null) {
+        $("#" + nextorprevious).siblings().removeClass("active");  //获取所有兄弟节点
+        $("#" + nextorprevious).addClass("active");
+        var musichref = $("#music" + nextorprevious).attr("href");
+        $("#audio").attr("src", musichref);
+        $("#btn").click();
+        window.localStorage.setItem("id", nextorprevious);
+    }
 }

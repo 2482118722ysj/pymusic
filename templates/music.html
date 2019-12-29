@@ -5,10 +5,10 @@
     <title>音乐</title>
     <link href="/static/css/bootstrap.min.css" rel="stylesheet">
     <link href="/static/css/music.css" rel="stylesheet">
-    <link rel="stylesheet" href="/static/css/broadcastmusic.css"/>
+    <link rel="stylesheet" href="/static/css/broadcast.css"/>
     <script type="application/javascript" src="/static/js/jquery-3.4.1.min.js"></script>
     <script type="application/javascript" src="/static/js/bootstrap.min.js"></script>
-    <script type="application/javascript" src="/static/js/music.js"></script>
+    <script type="application/javascript" src="/static/js/musicqq.js"></script>
 </head>
 <body class="text-center" style="background-color: #efefef">
 <div class="container-fluid" style="margin: 20px;background-color:#ece7e7">
@@ -32,9 +32,13 @@
                     <span class="totalTime">00:00</span>
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="btn col-lg-2 col-md-12 col-sm-12 col-xs-12" id="btn">
-                        <img src="/static/img/play.png" class="play" alt=""/>
-                        <img src="/static/img/pause.png" class="pause" alt=""/>
+                    <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+                        <img src="/static/img/previous.png" class="previous" onclick="clickPrevious()"/>
+                        <div class="btn" id="btn">
+                            <img src="/static/img/play.png" id="clickplay" class="play" alt=""/>
+                            <img src="/static/img/pause.png" class="pause" alt=""/>
+                        </div>
+                        <img src="/static/img/next.png" class="next" onclick="clickNext()"/>
                     </div>
                     <audio id="audio" src=""></audio>
                     <div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
@@ -48,7 +52,7 @@
     </div>
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 musictop">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <div class="panel-footer">
+            <div class="panel-footer"><!--onclick="broadcast(this)-->
                 <table>
                     <a href="http://www.baidu.com" id="b"></a>
                     <tr>
@@ -96,6 +100,6 @@
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
     </div>
 </div>
-<script src="/static/js/audioPlayer.js"></script>
+<script src="/static/js/broadcast.js"></script>
 </body>
 </html>

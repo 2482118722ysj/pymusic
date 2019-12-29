@@ -3,35 +3,39 @@ var totalProgress = $('.totalProgress');
 var currentProgress = $('.currentProgress');
 var currentTime = $('.currentTime');
 var totalTime = $('.totalTime');
-var timer;//¼ÆÊ±Æ÷
+var timer;//è®¡æ—¶å™¨
 
-/*°´Å¥µ¥»÷Ê±*/
+/*æŒ‰é’®å•å‡»æ—¶*/
 $('.btn').on('click', function () {
-    //Èç¹ûÒôÆµÔİÍ£
+    //å¦‚æœéŸ³é¢‘æš‚åœ
     if (audio.paused) {
-        audio.play();//²¥·ÅÒôÆµ
-        //¸ü¸Ä²¥·Å°´Å¥
+        audio.play();//æ’­æ”¾éŸ³é¢‘
+        //æ›´æ”¹æ’­æ”¾æŒ‰é’®
         $('.play').css({'display': 'none'});
         $('.pause').css({'display': 'block'});
-        //¼ÆÊ±Æ÷ÊµÊ±¸ü¸Ä½ø¶È
+        //è®¡æ—¶å™¨å®æ—¶æ›´æ”¹è¿›åº¦
         timer = setInterval(function () {
             if (audio.ended) {
-                //Èç¹ûÒôÆµ²¥·Å½áÊø
+                //å¦‚æœæœ¬é¦–éŸ³é¢‘æ’­æ”¾ç»“æŸ
+                //å¦‚æœæœ‰ä¸‹ä¸€é¦–éŸ³ä¹ï¼Œå°±æ’­æ”¾ä¸‹ä¸€é¦–,å¦åˆ™å°±åœæ­¢æ’­æ”¾
                 var musicid = window.localStorage.getItem("id");
-                var nextSibling = $("#" + musicid).nextSibling;
+                var nextSibling = $("#" + musicid).next().attr("id");
                 if (nextSibling != null) {
-                    musichref = nextSibling.attr("href");
+                    $("#" + nextSibling).siblings().removeClass("active");  //è·å–æ‰€æœ‰å…„å¼ŸèŠ‚ç‚¹
+                    $("#" + nextSibling).addClass("active");
+                    var musichref = $("#music" + nextSibling).attr("href");
                     $("#audio").attr("src", musichref);
                     $("#btn").click();
+                    window.localStorage.setItem("id", nextSibling);
                 } else {
                     $('.play').css({'display': 'block'});
                     $('.pause').css({'display': 'none'});
                 }
             } else {
-                //¸ü¸ÄÊ±¼ä
+                //æ›´æ”¹æ—¶é—´
                 currentTime.text(formatTime(audio.currentTime));
                 totalTime.text(formatTime(audio.duration));
-                //¸ü¸Ä½ø¶ÈÌõ
+                //æ›´æ”¹è¿›åº¦æ¡
                 var ratio = audio.currentTime / audio.duration;
                 currentProgress.css({'width': ratio * 100 + '%'});
             }
@@ -43,30 +47,31 @@ $('.btn').on('click', function () {
     }
 });
 
-/*µ¥»÷½ø¶ÈÌõ¸ü¸Ä½ø¶È*/
+
+/*å•å‡»è¿›åº¦æ¡æ›´æ”¹è¿›åº¦*/
 totalProgress.on('click', function (ev) {
-    //»ñÈ¡°Ù·Ö±È
+    //è·å–ç™¾åˆ†æ¯”
     var ratio = getRatio(ev);
     currentProgress.css({'width': ratio * 100 + '%'});
-    //¸ü¸ÄÒôÆµ½ø¶È
+    //æ›´æ”¹éŸ³é¢‘è¿›åº¦
     audio.currentTime = audio.duration * ratio;
 });
 
 function getRatio(ev) {
-    //×Ü½ø¶ÈÌõµÄÊµ¼Ê¿í¶È
+    //æ€»è¿›åº¦æ¡çš„å®é™…å®½åº¦
     var totalWidth = totalProgress[0].offsetWidth;
-    //×Ü½ø¶ÈÌõµÄX×ø±ê
+    //æ€»è¿›åº¦æ¡çš„Xåæ ‡
     var totalX = totalProgress.offset().left;
-    //Êó±êµÄX×ø±ê
+    //é¼ æ ‡çš„Xåæ ‡
     var mouseX = ev.clientX;
-    //Çó³ö°Ù·Ö±È
+    //æ±‚å‡ºç™¾åˆ†æ¯”
     var ratio = (mouseX - totalX) / totalWidth;
     return ratio;
 }
 
-//¸ñÊ½»¯Ê±¼ä
+//æ ¼å¼åŒ–æ—¶é—´
 function formatTime(time) {
-    //È¡Õû
+    //å–æ•´
     time = ~~time;
     var formatTime;
     if (time < 10) {
