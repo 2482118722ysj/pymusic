@@ -1,12 +1,10 @@
 function searchmusic() {
     //当点击搜索，继续播放
-    var style=$("#clickplay").style;
-    if(style!=null){
-        clickplay=style.display;
-        if(clickplay=="none"){
-            $("#btn").click();
-        }
-    }
+    // var clickpause = $("#clickpause").css("display");
+    // if (clickpause == "block") {
+    //     $("#btn").click();
+    // }
+    $("#btn").click();
     var songname = $("#songname").val();
     document.getElementById("songname").value = songname;
     var musicbeigin = $("#musicbeigin");
